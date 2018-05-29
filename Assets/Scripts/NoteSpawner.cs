@@ -41,8 +41,8 @@ public class NoteSpawner : MonoBehaviour {
     private List<int> beatToHitIndex = new List<int>();
     private int hitIndex;
 
-    private UserInput userInput;
 
+    private UserInput userInput;
 
     //private float timer = 0;
     //private float[] timeStamp = new float[] { 0.3f, 0.9f, 1.5f, 2.2f, 3f, 3.5f, 6f };
@@ -51,18 +51,12 @@ public class NoteSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        /*
-        int[] intarray = new int[8];
-        intarray[0] = 3;
-        intarray[2] = 4;
-        */
-        //Debug.Log(AudioSettings.outputSampleRate);
         userInput = GetComponent<UserInput>();
 
-        samplePerBeat = 60 / clipBPM * AudioSettings.outputSampleRate;
-        Debug.Log(samplePerBeat);
+        samplePerBeat = 60 / clipBPM * AudioSettings.outputSampleRate; //Get how many sample per beat
+        //Debug.Log(samplePerBeat);
 
-        
+        // Add beatnterval //
         beatToHit.Add(5);
         beatToHit.Add(1);
         beatToHit.Add(1);
@@ -73,16 +67,18 @@ public class NoteSpawner : MonoBehaviour {
         beatToHit.Add(3);
         beatToHit.Add(4);
 
-        /*
+        /* AudioFilter Method
         float[] emptySecond = new float[48000]; // Creat a empty 1 second                       
         for (int i = 0; i < clips.Length; i++) {
-            float[] newBuffer = new float[clips[i].samples];
-            clips[i].GetData(newBuffer,0); // Use clip data to fill the audioBuffer array
+            float[] newBuffer = new float[clips[i].samples]; // Define the length of the newBuffer[]
+            clips[i].GetData(newBuffer,0); // Use clip data to fill the audioBuffer array. 0 => noOffset
             audioBuffers.Add(newBuffer); // add the float[] newBuffer to the audioBuffers list
             audioBuffers.Add(emptySecond); // add the empty second after every clip
         }
+        
+        source.Play(); // Play the AudioClip;
+
         */
-        //source.Play(); // Play the AudioClip;
 
 
     }
@@ -91,13 +87,12 @@ public class NoteSpawner : MonoBehaviour {
     int passPosition = 0;
     int deltaSum = 0;
     int deltaSumNoteHit = 0;
-    
     float deletNoteTimer = 0;
     
     private void Update()
     {
-        postionIndex = Random.Range(0, startPos.Length);
-        //hitIndex = Random.Range(0, beatToHit.Count);
+        //postionIndex = Random.Range(0, startPos.Length); //random pick the note spawn position
+        //hitIndex = Random.Range(0, beatToHit.Count); //random pick the beatInterval
       
 
         BeatOnAudioSource();
@@ -165,7 +160,7 @@ public class NoteSpawner : MonoBehaviour {
         }
 
         
-        passPosition = source.timeSamples;
+        passPosition = source.timeSamples; // make the passPosition 1 frame later then the sourceSamples
         
     }
 
